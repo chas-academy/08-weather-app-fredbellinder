@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import fetchWeatherBasedOnPosition from './fetchWeatherBasedOnPosition';
+import DailyWeather from './DailyWeather';
 
 
 export default class ApiCallComponent extends Component {
@@ -9,32 +10,9 @@ export default class ApiCallComponent extends Component {
         console.log(props);
 
         this.state = {
-            currently: {
-                apparentTemperature: 'Loading',
-                cloudCover: 'Loading',
-                dewPoint: 'Loading',
-                humidity: 'Loading',
-                icon: 'Loading',
-                ozone: 'Loading',
-                precipIntensity: 'Loading',
-                precipProbability: 'Loading',
-                pressure: 'Loading',
-                summary: 'Loading',
-                temperature: 'Loading',
-                time: 'Loading',
-                uvIndex: 'Loading',
-                visibility: 'Loading',
-                windBearing: 'Loading',
-                windGust: 'Loading',
-                windSpeed: 'Loading',
-            },
             fetchedWeather: false,
-            celsius: true,
-            timezone: "Europe/Stockholm"
+            celsius: true
         }
-
-
-
     }
     componentWillMount() {
 
@@ -57,7 +35,6 @@ export default class ApiCallComponent extends Component {
                     ...data,
                     fetchedWeather: true
                 });
-                console.log(this.state);
             })
         }
         const error = (err) => {
@@ -67,12 +44,7 @@ export default class ApiCallComponent extends Component {
 
     }
 
-    componentDidMount() {
-
-    }
-
     unixTimestampToLocaleTimeStringInLocalTimeZone = (unixTimeStamp, timeZone) => {
-        console.log(unixTimeStamp, timeZone)
         const time = new Date(unixTimeStamp * 1000);
         return time.toLocaleTimeString({ timeZone: timeZone, timeZoneName: 'long' })
     }
@@ -84,51 +56,29 @@ export default class ApiCallComponent extends Component {
         })
     }
 
-
     render() {
         if (this.state.fetchedWeather) {
             return (
                 <div>
                     <p>Timezone: {this.state.timezone}</p>
-                    <p>apparentTemperature: {this.state.celsius ? this.state.currently.apparentTemperature : Math.round((this.state.currently.apparentTemperature - 32) * 5 / 9)}</p>
+                    <p>apparentTemperature: {this.state.celsius ? this.state.currently.apparentTemperature.toFixed(1) + ' ℉' : ((this.state.currently.apparentTemperature - 32) * 5 / 9).toFixed(1) + ' ℃'}</p>
                     <p>cloudCover: {this.state.currently.cloudCover}</p>
                     <p>dewPoint: {this.state.currently.dewPoint}</p>
-                    <p>humidity: {this.state.currently.humidity}</p>
+                    <p>humidity: {Math.round(this.state.currently.humidity)}%</p>
                     <p>icon: {this.state.currently.icon}</p>
-                    <p>ozone: {this.state.currently.ozone}</p>
                     <p>SunriseTime: {this.unixTimestampToLocaleTimeStringInLocalTimeZone(this.state.daily.data[0].sunriseTime, this.state.timezone)}</p>
                     <p>SunsetTime: {this.unixTimestampToLocaleTimeStringInLocalTimeZone(this.state.daily.data[0].sunsetTime, this.state.timezone)}</p>
                     <p>pressure: {this.state.currently.pressure}</p>
                     <p>summary: {this.state.currently.summary}</p>
-                    <p>temperature: {
-                        this.state.celsius ? this.state.currently.temperature + ' ℉' : Math.round((this.state.currently.temperature - 32) * 5 / 9) + ' ℃'
-                    }</p>
-                    <p>uvIndex: {this.state.currently.uvIndex}</p>
+                    <p>temperature: {this.state.celsius ? this.state.currently.temperature.toFixed(1) + ' ℉' : ((this.state.currently.temperature - 32) * 5 / 9).toFixed(1) + ' ℃'}</p>
                     <p>visibility: {this.state.currently.visibility}</p>
                     <button onClick={this.toggleTempScale}>℉/℃</button>
-
-                    <div className="fiveDays">
-                        {this.state.daily.data.map(data => {
-                            return (<div key={data.time}><p>Timezone: {data.timezone}</p>
-                                <p>apparentTemperature: {this.state.celsius ? data.apparentTemperatureHigh : Math.round((data.apparentTemperatureHigh - 32) * 5 / 9)}</p>
-                                <p>cloudCover: {data.cloudCover}</p>
-                                <p>windSpeed: {data.windSpeed}</p>
-                                <p>humidity: {data.humidity}</p>
-                                <img className={'dailyIcon'} src={require(`../assets/${data.icon}.svg`)} alt={data.icon} />
-                                <p>summary: {data.summary}</p>
-                                <p>temperature: {
-                                    this.state.celsius ? data.temperatureHigh + ' ℉' : Math.round((data.temperatureHigh - 32) * 5 / 9) + ' ℃'
-                                }</p>
-                            </div>)
-                        })}
-                    </div>
+                    <DailyWeather daily={this.state.daily.data.slice(0, 5)} celsius={this.state.celsius} />
                 </div>
             )
         } else {
             return (
-
                 <div className="loadingCont">
-
                     <img className={'loadingGif'} src="https://media.giphy.com/media/RB1o2aaBZmkfe/giphy.gif" alt={'Weather is loading!'} />
                 </div>
             )

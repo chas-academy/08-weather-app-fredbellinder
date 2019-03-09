@@ -2,11 +2,17 @@
   text-align: center;
 }
 
-.dailyIcon {
-  width: 2em;
-  height: 2em;
-
+.dailyCard {
+  width: 18rem;
 }
+
+.dailyIcon {
+  width: 70%;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 
 .loadingCont {
   display: grid;
