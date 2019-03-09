@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import TodaysWeather from './components/TodaysWeather';
 import ApiCallComponent from './components/ApiCallComponent';
 
 class App extends Component {
@@ -24,7 +23,6 @@ class App extends Component {
     return (
       <div className="App">
         <h1>Weather AF</h1>
-        <TodaysWeather />
         <ApiCallComponent />
         <a href="https://darksky.net/poweredby/">Powered By DarkSky</a>
       </div>

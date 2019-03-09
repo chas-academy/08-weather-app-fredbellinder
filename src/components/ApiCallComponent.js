@@ -28,7 +28,8 @@ export default class ApiCallComponent extends Component {
                 windSpeed: 'Loading',
             },
             fetchedWeather: false,
-            celsius: true
+            celsius: true,
+            timezone: "Europe/Stockholm"
         }
 
 
@@ -69,13 +70,17 @@ export default class ApiCallComponent extends Component {
 
     }
 
+    melon = (unixTimeStamp, timeZone) => {
+        console.log(unixTimeStamp, timeZone)
+        const time = new Date(unixTimeStamp * 1000);
+        return time.toLocaleTimeString({ timeZone: timeZone, timeZoneName: 'long' })
+    }
+
     toggleTempScale = () => {
         this.setState({
             ...this.state,
             celsius: !this.state.celsius
         })
-        console.log('yolo');
-
     }
 
 
@@ -90,8 +95,8 @@ export default class ApiCallComponent extends Component {
                     <p>humidity: {this.state.currently.humidity}</p>
                     <p>icon: {this.state.currently.icon}</p>
                     <p>ozone: {this.state.currently.ozone}</p>
-                    <p>precipIntensity: {this.state.currently.precipIntensity}</p>
-                    <p>precipProbability: {this.state.currently.precipProbability}</p>
+                    <p>SunriseTime: {this.melon(this.state.daily.data[0].sunriseTime, this.state.timezone)}</p>
+                    <p>SunsetTime: {this.melon(this.state.daily.data[0].sunsetTime, this.state.timezone)}</p>
                     <p>pressure: {this.state.currently.pressure}</p>
                     <p>summary: {this.state.currently.summary}</p>
                     <p>temperature: {
@@ -100,6 +105,10 @@ export default class ApiCallComponent extends Component {
                     <p>uvIndex: {this.state.currently.uvIndex}</p>
                     <p>visibility: {this.state.currently.visibility}</p>
                     <button onClick={this.toggleTempScale}>℉/℃</button>
+
+                    <div className="fiveDays">
+                        {this.state.daily.data.map(data => console.log(data))}
+                    </div>
                 </div>
             )
         } else { return null }
