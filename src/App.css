@@ -2,8 +2,68 @@
   text-align: center;
 }
 
+body {
+  min-height: 100vh;
+  max-height: 100%;
+  background-image: linear-gradient(rgba(103, 197, 194, 0.4), #FEFCE8, #67c5c266);
+  background-size: contain;
+  background-repeat: no-repeat;
+
+}
+
+.navbar-brand {
+  color: #3D2117;
+  font-weight: bold;
+
+}
+
+.todayIcon {
+  width: 10%;
+  
+}
+
+div.hourly {
+  background-color: #67c5c266;
+  margin-top: 0.5em;
+}
+
+
+ul.list-group.hourly {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+ul.list-group.hourly:nth-child(1) {
+  margin-left: 1em;
+}
+
+ul.list-group.hourly:last-child {
+  margin-right: 1em;
+}
+
+.list-item.hourly{
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  justify-content: center;
+  text-align: center;
+  background-color: #67c5c210;
+}
+
+
+  
+.dailyContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
 .dailyCard {
   width: 18rem;
+  background-color: rgba(103, 197, 194, 0.4);
+  color: #3D2117;
 }
 
 .dailyIcon {
@@ -11,16 +71,14 @@
   height: auto;
   margin-left: auto;
   margin-right: auto;
+  color: #67c5c266
 }
 
-
-.loadingCont {
-  display: grid;
-  justify-content: center;
-
+.list-group-item {
+  background-color: #67c5c210;
 }
 
-.loadingGif {
-  display: block;
-  opacity: 0.2;
+.hourlyIcon {
+  width: 2em;
+  height: auto;
 }

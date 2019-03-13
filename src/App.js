@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import ApiCallComponent from './components/ApiCallComponent';
+// import NavCurrentPositionWeather from './components/NavCurrentPositionWeather'
 
 class App extends Component {
   constructor(props) {
@@ -11,20 +12,20 @@ class App extends Component {
     }
   }
 
-  componentWillMount() {
-
-  }
-
-  componentDidUpdate() {
-
-  }
-
   render() {
+
+
     return (
-      <div className="App">
-        <h1>Weather AF</h1>
+      <div className={"App"}>
+        <nav className={"navbar navbar-light swatch-teal"}>
+          <a className={"navbar-brand"} href="#app">Can I Ride?</a>
+        </nav>
         <ApiCallComponent />
-        <a href="https://darksky.net/poweredby/">Powered By DarkSky</a>
+        <a href="https://darksky.net/poweredby/">
+          <button className="btn btn-dark">
+            Powered By DarkSky
+          </button>
+        </a>
       </div>
     );
   }

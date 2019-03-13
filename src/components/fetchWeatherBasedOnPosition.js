@@ -1,8 +1,7 @@
 
-export default function fetchWeatherBasedOnPosition(props) {
-    console.log(props)
-    const url = `https://but-of-cors.herokuapp.com/https://api.darksky.net/forecast/781ed3b5f63fd16ecbf8e4dfeacab416/${props.latitude},${props.longitude}`;
-    return fetch(url)
+export default async function fetchWeatherBasedOnPosition(props) {
+    const url = `https://but-of-cors.herokuapp.com/https://api.darksky.net/forecast/HIDDEN_API_KEY/${props.latitude},${props.longitude}`;
+    return await fetch(url)
         .then(response => {
             return response.json();
         })
