@@ -1,6 +1,11 @@
+*{
+  font-weight: 100;
+}
+
 .App {
   text-align: center;
 }
+
 
 body {
   min-height: 100vh;
@@ -14,6 +19,10 @@ body {
 .navbar-brand {
   color: #3D2117;
   font-weight: bold;
+
+}
+.container.today-container>p{
+  line-height: 0.5em;
 
 }
 
@@ -62,16 +71,21 @@ ul.list-group.hourly:last-child {
 }
 .dailyCard {
   width: 18rem;
-  background-color: rgba(103, 197, 194, 0.4);
+  background-color: #67c5c266;
   color: #3D2117;
+  margin-top: 0.5em;
 }
 
 .dailyIcon {
-  width: 70%;
-  height: auto;
+
+    display: block;
+    width: 100%;
+    height: auto;
+  
+  /* width: 70%;
+  height: auto; */
   margin-left: auto;
   margin-right: auto;
-  color: #67c5c266
 }
 
 .list-group-item {
@@ -82,3 +96,43 @@ ul.list-group.hourly:last-child {
   width: 2em;
   height: auto;
 }
+
+@media only screen and (max-width: 450px){
+  .list-item.title.hourly {
+    width: 100%;
+  }
+}
+
+.img-wrapper {
+  position: relative;
+  width:100%;
+}
+
+  .info-div {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .3s ease;
+    background-color: #a0e2e0;
+  }
+  
+  .img-wrapper:hover .info-div {
+    opacity: 1;
+  }
+  
+  .ul-div {
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  .list-group-info {
+    list-style: none;
+  }
