@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+
 import fetchWeatherBasedOnPosition from './fetchWeatherBasedOnPosition';
+import clientLocationSearch from './clientLocationSearch';
 import DailyWeather from './DailyWeather';
 import HourlyWeather from './HourlyWeather'
 import fahrenheit from './fahrenheit'
@@ -27,10 +29,11 @@ export default class ApiCallComponent extends Component {
             },
             timezone: 'Africa/Tripoli',
             onRandom: true,
-            blur: 1.5
-
-
+            blur: 1.5,
+            city: props.searchCoords,
+            searched: false
         }
+
     }
     componentDidMount() {
         const options = {
@@ -45,40 +48,39 @@ export default class ApiCallComponent extends Component {
                 ...this.state,
                 geoCoords
             })
-            let what = fetchWeatherBasedOnPosition({
-                latitude: this.state.geoCoords.latitude,
-                longitude: this.state.geoCoords.longitude
-            });
-            what.then(data => {
-                this.setState({
-                    ...this.state,
-                    ...data,
-                    fetchedWeather: true
-                });
-                this.smoothRender();
-
-            })
+            this.weatherFetch()
         }
         const error = (err) => {
             console.warn(`ERROR(${err.code}): ${err.message}`);
-            let what = fetchWeatherBasedOnPosition({
+            this.weatherFetch({
                 latitude: 30,
                 longitude: 20
             });
 
-            what.then(data => {
-
-
-                this.setState({
-                    ...this.state,
-                    ...data,
-                    fetchedWeather: true
-                });
-            })
-
         }
-        navigator.geolocation.getCurrentPosition(success, error, options);
+        !this.state.searched ? navigator.geolocation.getCurrentPosition(success, error, options) : void (0);
 
+
+        const form = document.querySelector('form') ? document.querySelector('form') : null
+        form.addEventListener('submit', this.setManualSearchQuery)
+
+    }
+
+    weatherFetch = (latitude = this.state.geoCoords.latitude, longitude = this.state.geoCoords.longitude) => {
+        let darkSkyCall = fetchWeatherBasedOnPosition({
+            latitude: latitude,
+            longitude: longitude
+        });
+        darkSkyCall.then(data => {
+            this.setState({
+                ...this.state,
+                ...data,
+                fetchedWeather: true,
+                searched: false
+            });
+            this.smoothRender();
+        })
+        this.props.setSummary(this.state.daily.summary)
     }
 
     unixTimestampToLocaleTimeStringInLocalTimeZone = (unixTimeStamp, timeZone = this.state.timezone) => {
@@ -120,6 +122,32 @@ export default class ApiCallComponent extends Component {
         var fade = setInterval(filter, 1);
     }
 
+    setManualSearchQuery = async (event) => {
+        event.preventDefault()
+        let searchTerm = document.querySelector('.searchQuery').value;
+        searchTerm = searchTerm.replace(' ', '+')
+        let searchTermToCoords = await clientLocationSearch(searchTerm);
+        this.setState({
+            geoCoords: {
+                latitude: searchTermToCoords.lat,
+                longitude: searchTermToCoords.lng
+            }
+        })
+
+        this.weatherFetch(
+            this.state.geoCoords.latitude,
+            this.state.geoCoords.longitude
+        );
+    }
+
+
+    resetSearchTerms = () => {
+        this.setState({
+            city: null,
+            searched: false
+        })
+    }
+
     render() {
 
         return (
@@ -158,7 +186,7 @@ export default class ApiCallComponent extends Component {
                         <button
                             onClick={this.toggleTempScale}
                             className={'btn btn-primary'}
-                        >℉ / ℃</button>
+                        > ℃ / ℉</button>
                     </div>
                     <HourlyWeather hourly={this.state.hourly || null} unixTimestampToLocaleTimeStringInLocalTimeZone={this.unixTimestampToLocaleTimeStringInLocalTimeZone} celsius={this.state.celsius} />
                 </div>
