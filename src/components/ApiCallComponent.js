@@ -144,7 +144,7 @@ export default class ApiCallComponent extends Component {
         let searchTerm = document.querySelector('.searchQuery').value;
         searchTerm = searchTerm.replace(' ', '+')
         let searchTermToCoords = await clientLocationSearch(searchTerm);
-        let issSearchWhereAbouts = await issSearch();
+
         searchTermToCoords ?
             this.setState({
                 geoCoords: {
@@ -152,14 +152,25 @@ export default class ApiCallComponent extends Component {
                     longitude: searchTermToCoords.lng
                 }
             })
-            :
-            this.setState({
-                geoCoords: {
-                    latitude: issSearchWhereAbouts.latitude,
-                    longitude: issSearchWhereAbouts.longitude
-                }
-            })
-        if (!searchTermToCoords && issSearchWhereAbouts) {
+            : this.issForTheWin()
+
+
+
+        this.weatherFetch();
+        this.getCity();
+    }
+
+    issForTheWin = async () => {
+        let issSearchWhereAbouts = await issSearch();
+
+        this.setState({
+            geoCoords: {
+                latitude: issSearchWhereAbouts.latitude,
+                longitude: issSearchWhereAbouts.longitude
+            }
+        })
+
+        if (issSearchWhereAbouts) {
             document.querySelector('.iss-banner').style.visibility = 'visible';
             setTimeout(function () { document.querySelector('.iss-banner').style.visibility = 'hidden'; }, 10000)
         }
@@ -214,6 +225,8 @@ export default class ApiCallComponent extends Component {
                         <p>Visibility: {this.state.currently.visibility} Km</p>
                         <button onClick={this.toggleTempScale} className={'btn btn-primary'} title="Celsius/Fahrenheit"> ℃ / ℉</button>
                         <img src={require('../assets/compass-icon.png')} alt="GPS" onMouseUp={this.weatherBasedOnLocation} className={'btn btn-primary img-geoposition'} title='Get weather from position' />
+                        <img src={require('../assets/international-space-station-icon.png')} alt="ISS" onMouseUp={this.issForTheWin} className={'btn btn-primary img-iss'} title='See whereabouts of ISS in relation to Earth' />
+
                     </div>
                     <HourlyWeather hourly={this.state.hourly || null} unixTimestampToLocaleTimeStringInLocalTimeZone={this.unixTimestampToLocaleTimeStringInLocalTimeZone} celsius={this.state.celsius} />
                 </div>

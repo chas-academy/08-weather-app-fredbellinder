@@ -43,6 +43,11 @@ body {
   cursor: pointer;
 }
 
+.img-iss {
+  margin-left: 0.5em;
+  cursor: pointer;
+}
+
 div.hourly {
   background-color: #67c5c266;
   margin-top: 0.5em;
