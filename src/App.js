@@ -26,7 +26,7 @@ class App extends Component {
       <div className={"App"}>
         <nav className={"navbar navbar-light swatch-teal"}>
           <a className={"navbar-brand"} href="#app">Can I Ride?</a>
-          {this.state.summary ? <p>Week in short: {this.state.summary}</p> : null}
+          {this.state.summary ? <p className={'week-summary'}>Week in short: {this.state.summary}</p> : null}
           <form className={"form-inline my-2 my-lg-0"}>
             <input className={"form-control mr-sm-2 searchQuery"} type="search" placeholder="Search" aria-label="Search" />
             <button className={"btn btn-outline-success my-2 my-sm-0"} type="submit">Search</button>
