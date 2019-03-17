@@ -212,8 +212,8 @@ export default class ApiCallComponent extends Component {
                         </p>
                         <p>Humidity: {Math.round(this.state.currently.humidity)}%</p>
                         <p>Visibility: {this.state.currently.visibility} Km</p>
-                        <button onClick={this.toggleTempScale} className={'btn btn-primary'}> ℃ / ℉</button>
-                        <button onClick={this.weatherBasedOnLocation} className={'btn btn-primary button-geoposition'} title='Get weather from position'>🧭</button>
+                        <button onClick={this.toggleTempScale} className={'btn btn-primary'} title="Celsius/Fahrenheit"> ℃ / ℉</button>
+                        <img src={require('../assets/compass-icon.png')} alt="GPS" onMouseUp={this.weatherBasedOnLocation} className={'btn btn-primary img-geoposition'} title='Get weather from position' />
                     </div>
                     <HourlyWeather hourly={this.state.hourly || null} unixTimestampToLocaleTimeStringInLocalTimeZone={this.unixTimestampToLocaleTimeStringInLocalTimeZone} celsius={this.state.celsius} />
                 </div>

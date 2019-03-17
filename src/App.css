@@ -38,8 +38,9 @@ body {
   
 }
 
-.button-geoposition {
+.img-geoposition {
   margin-left: 0.5em;
+  cursor: pointer;
 }
 
 div.hourly {
