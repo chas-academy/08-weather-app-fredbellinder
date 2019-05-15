@@ -1,9 +1,5 @@
-import React from 'react'
+import React from "react";
 
 export default function celsius(data) {
-    return (
-        <span>
-            {((data - 32) * 5 / 9).toFixed(1) + ' ℃'}
-        </span>
-    )
+  return <span>{data.toFixed(1)} ℃</span>;
 }
